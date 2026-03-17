@@ -31,6 +31,7 @@ public Product(Long id, String name, String category, double price, int quantity
     this.name = name;
     this.category = category;
     this.price = price;
+    this.quantity = quantity;
 }
     // TODO: Getters and setters for all 5 fields
     public Long getId() {
