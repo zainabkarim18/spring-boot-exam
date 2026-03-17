@@ -22,17 +22,20 @@ import java.util.Optional;
 public class ProductService {
 
     // TODO: Declare a private final ProductRepository field
+         private final ProductRepository repository;
 
 
     // TODO: Constructor that takes ProductRepository as parameter (constructor injection)
-
+        public ProductService(ProductRepository repository) {
+            this.repository = repository;
+        }
 
     /**
      * Get all products.
      */
     public List<Product> getAllProducts() {
         // TODO: Delegate to repository
-        return null;
+        return repository.findAll();
     }
 
     /**
@@ -41,7 +44,8 @@ public class ProductService {
      */
     public Optional<Product> getProductById(Long id) {
         // TODO: Delegate to repository
-        return Optional.empty();
+            return repository.findById(id);
+
     }
 
     /**
@@ -50,7 +54,8 @@ public class ProductService {
      */
     public Product createProduct(Product product) {
         // TODO: Delegate to repository
-        return null;
+            return repository.save(product);
+
     }
 
     /**
@@ -61,10 +66,21 @@ public class ProductService {
      */
     public Optional<Product> updateProduct(Long id, Product updated) {
         // TODO: Find existing product by ID
+             Optional<Product> existingOpt = repository.findById(id);
+
         // TODO: If found, update its name, category, price, and quantity
-        // TODO: Save and return the updated product
+            if (existingOpt.isPresent()) {
+                Product existing = existingOpt.get();
+                existing.setName(updated.getName());
+                existing.setCategory(updated.getCategory());
+                existing.setPrice(updated.getPrice());
+                existing.setQuantity(updated.getQuantity());
+
+            // TODO: Save and return the updated product
+                return Optional.of(repository.save(existing));
+        }
         // TODO: If not found, return Optional.empty()
-        return Optional.empty();
+            return Optional.empty();
     }
 
     /**
@@ -73,6 +89,7 @@ public class ProductService {
      */
     public boolean deleteProduct(Long id) {
         // TODO: Delegate to repository
-        return false;
+            return repository.deleteById(id);
+
     }
 }
